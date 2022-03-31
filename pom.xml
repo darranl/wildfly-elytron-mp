@@ -58,9 +58,9 @@
     <properties>
         <jdk.min.version>11</jdk.min.version>
 
-        <version.jakarta.enterprise>2.0.2</version.jakarta.enterprise>
-        <version.io.smallrye.jwt>3.1.1</version.io.smallrye.jwt>
-        <version.org.eclipse.microprofile.jwt.api>1.1.1</version.org.eclipse.microprofile.jwt.api>
+        <version.jakarta.enterprise>4.0.0-RC2</version.jakarta.enterprise>
+        <version.io.smallrye.jwt>4.0.0-RC1</version.io.smallrye.jwt>
+        <version.org.eclipse.microprofile.jwt.api>2.0</version.org.eclipse.microprofile.jwt.api>
         <version.org.jboss.logging>3.4.1.Final</version.org.jboss.logging>
         <version.org.jboss.logging.tools>2.2.1.Final</version.org.jboss.logging.tools>
         <version.org.wildfly.checkstyle-config>1.0.8.Final</version.org.wildfly.checkstyle-config>
@@ -299,6 +299,12 @@
                 <groupId>jakarta.enterprise</groupId>
                 <artifactId>jakarta.enterprise.cdi-api</artifactId>
                 <version>${version.jakarta.enterprise}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>*</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
+                </exclusions>
                 <scope>provided</scope>
             </dependency>
             <dependency>
