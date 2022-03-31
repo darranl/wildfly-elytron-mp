@@ -32,6 +32,7 @@
     <groupId>org.wildfly.security</groupId>
     <artifactId>wildfly-elytron-mp</artifactId>
     <version>2.0.0.Alpha4-SNAPSHOT</version>
+
     <packaging>pom</packaging>
 
     <name>WildFly Elytron MicroProfile</name>
@@ -58,7 +59,7 @@
         <jdk.min.version>11</jdk.min.version>
 
         <version.jakarta.enterprise>2.0.2</version.jakarta.enterprise>
-        <version.io.smallrye.jwt>2.0.12</version.io.smallrye.jwt>
+        <version.io.smallrye.jwt>3.1.1</version.io.smallrye.jwt>
         <version.org.eclipse.microprofile.jwt.api>1.1.1</version.org.eclipse.microprofile.jwt.api>
         <version.org.jboss.logging>3.4.1.Final</version.org.jboss.logging>
         <version.org.jboss.logging.tools>2.2.1.Final</version.org.jboss.logging.tools>
@@ -222,6 +223,7 @@
                         <notimestamp>true</notimestamp>
                         <doclint>none</doclint>
                         <show>protected</show>
+                        <source>8</source> <!-- See https://bugs.openjdk.java.net/browse/JDK-8212233 -->
                         <sourcepath>
                             ${project.basedir}/jwt/src/main/java/;
                         </sourcepath>
@@ -288,9 +290,11 @@
 
     <dependencyManagement>
         <dependencies>
+
             <!--
                  External Modules
             -->
+
             <dependency>
                 <groupId>jakarta.enterprise</groupId>
                 <artifactId>jakarta.enterprise.cdi-api</artifactId>
@@ -298,8 +302,8 @@
                 <scope>provided</scope>
             </dependency>
             <dependency>
-                <artifactId>smallrye-jwt</artifactId>
                 <groupId>io.smallrye</groupId>
+                <artifactId>smallrye-jwt-cdi-extension</artifactId>
                 <version>${version.io.smallrye.jwt}</version>
                 <scope>provided</scope>
             </dependency>
