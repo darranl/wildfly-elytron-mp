@@ -29,7 +29,7 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.wildfly.security</groupId>
+    <groupId>org.wildfly.security.mp</groupId>
     <artifactId>wildfly-elytron-mp</artifactId>
     <version>2.0.0.Beta4-SNAPSHOT</version>
 
