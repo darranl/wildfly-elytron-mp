@@ -58,7 +58,7 @@
     <properties>
         <jdk.min.version>11</jdk.min.version>
 
-        <version.jakarta.enterprise>4.0.0-RC2</version.jakarta.enterprise>
+        <version.jakarta.enterprise>4.0.0</version.jakarta.enterprise>
         <version.io.smallrye.jwt>4.0.0-RC1</version.io.smallrye.jwt>
         <version.org.eclipse.microprofile.jwt.api>2.0</version.org.eclipse.microprofile.jwt.api>
         <version.org.jboss.logging>3.4.3.Final</version.org.jboss.logging>
