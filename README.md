@@ -26,6 +26,8 @@ The command below builds the project and runs the embedded suite.
 $ mvn clean install
 ```
 
+For detailed developer setup, including Java 25 requirements, Maven toolchains configuration, and CI workflow expectations for contributors, see [CONTRIBUTING.md](CONTRIBUTING.md).
+
 Issue Tracking
 --------------
 
