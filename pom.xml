@@ -36,12 +36,8 @@
     <packaging>pom</packaging>
 
     <name>WildFly Elytron MicroProfile</name>
-    <description>WildFly Security</description>
-
-    <issueManagement>
-        <system>Jira</system>
-        <url>https://issues.jboss.org/browse/ELYMP</url>
-    </issueManagement>
+    <description>WildFly Security MicroProfile integration</description>
+    <url>https://wildfly-security.github.io/wildfly-elytron/</url>
 
     <licenses>
         <license>
@@ -50,14 +46,34 @@
         </license>
     </licenses>
 
+    <developers>
+        <developer>
+            <name>Darran Lofthouse</name>
+            <email>darran.lofthouse@jboss.com</email>
+            <organization>WildFly</organization>
+            <organizationUrl>https://www.wildfly.org/</organizationUrl>
+        </developer>
+    </developers>
+
     <scm>
-        <connection>scm:git:git@github.com:wildfly-security/wildfly-elytron.git</connection>
-        <url>https://github.com/wildfly-security/wildfly-elytron</url>
+        <connection>scm:git:git@github.com:wildfly-security/wildfly-elytron-mp.git</connection>
+        <developerConnection>scm:git:git@github.com:wildfly-security/wildfly-elytron-mp.git</developerConnection>
+        <url>https://github.com/wildfly-security/wildfly-elytron-mp</url>
     </scm>
+
+    <issueManagement>
+        <system>Jira</system>
+        <url>https://issues.jboss.org/browse/ELYMP</url>
+    </issueManagement>
 
     <properties>
         <jdk.min.version>25</jdk.min.version>
         <maven.compiler.release>17</maven.compiler.release>
+
+        <!-- Nexus Settings -->
+        <nexus.repository.staging>wildfly-staging</nexus.repository.staging>
+        <nexus.staging.tag>elytron-mp-${project.version}</nexus.staging.tag>
+        <nexus.repository.release>wildfly-security</nexus.repository.release>
 
         <version.jakarta.enterprise>4.0.0</version.jakarta.enterprise>
         <version.io.smallrye.jwt>4.0.0</version.io.smallrye.jwt>
@@ -96,6 +112,19 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-checkstyle-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <!-- Release Plugin Configuration -->
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <configuration>
+                    <!-- Prepare -->
+                    <autoVersionSubmodules>true</autoVersionSubmodules>
+                    <tagNameFormat>@{project.version}</tagNameFormat>
+                    <pushChanges>false</pushChanges>
+                    <!-- Perform -->
+                    <localCheckout>true</localCheckout>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

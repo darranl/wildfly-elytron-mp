@@ -1,15 +1,13 @@
-WildFly Elytron
-===============
+WildFly Elytron MicroProfile
+============================
 
-[WildFly Elytron](https://wildfly-security.github.io/wildfly-elytron/) is a new WildFly sub-project which is completely replacing the combination of PicketBox and JAAS as the WildFly client and  server security mechanism.
- 
-An "elytron" (ĕl´·ĭ·trŏn, plural "elytra") is the hard, protective casing over a wing of certain flying insects (e.g. beetles).
+[WildFly Elytron](https://wildfly-security.github.io/wildfly-elytron/) MicroProfile integration provides security components for MicroProfile applications.
 
 Building From Source
 --------------------
 
 ```console
-$ git clone git@github.com:wildfly-security/wildfly-elytron.git
+$ git clone git@github.com:wildfly-security/wildfly-elytron-mp.git
 ```
 
 Setup the JBoss Maven Repository

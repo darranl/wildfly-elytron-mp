@@ -20,11 +20,24 @@ import io.smallrye.jwt.auth.cdi.SmallRyeJWTAuthCDIExtension;
 
 /**
  * An extension of {@link SmallRyeJWTAuthCDIExtension} to allow overrides.
+ * <p>
+ * This CDI extension provides WildFly-specific customizations for MicroProfile JWT authentication.
+ * It extends the SmallRye JWT implementation to enable optional claim type producers.
+ * </p>
  *
  * @author <a href="mailto:darran.lofthouse@jboss.com">Darran Lofthouse</a>
  */
 public class JWTCDIExtension extends SmallRyeJWTAuthCDIExtension {
 
+    /**
+     * Determines whether to register the optional claim type producer.
+     * <p>
+     * This override enables the registration of optional claim type producers,
+     * allowing for more flexible JWT claim handling in WildFly environments.
+     * </p>
+     *
+     * @return {@code true} to enable optional claim type producer registration
+     */
     @Override
     protected boolean registerOptionalClaimTypeProducer() {
         return true;
