@@ -24,14 +24,14 @@
     <parent>
         <groupId>org.jboss</groupId>
         <artifactId>jboss-parent</artifactId>
-        <version>39</version>
+        <version>52</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.wildfly.security.mp</groupId>
     <artifactId>wildfly-elytron-mp</artifactId>
-    <version>2.0.1.CR1-SNAPSHOT</version>
+    <version>2.1.0.CR1-SNAPSHOT</version>
 
     <packaging>pom</packaging>
 
@@ -56,7 +56,8 @@
     </scm>
 
     <properties>
-        <jdk.min.version>11</jdk.min.version>
+        <jdk.min.version>25</jdk.min.version>
+        <maven.compiler.release>17</maven.compiler.release>
 
         <version.jakarta.enterprise>4.0.0</version.jakarta.enterprise>
         <version.io.smallrye.jwt>4.0.0</version.io.smallrye.jwt>
@@ -68,10 +69,6 @@
         <test.level>INFO</test.level>
         <!-- Checkstyle configuration -->
         <linkXRef>false</linkXRef>
-
-        <!-- Modularized JDK support (various workarounds) - activated via profile -->
-        <modular.jdk.args/>
-        <modular.jdk.props/>
     </properties>
 
     <build>
@@ -94,29 +91,7 @@
         </resources>
 
         <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.7.0-jboss-1</version>
-                <executions>
-                    <execution>
-                        <id>default-compile</id>
-                        <phase>compile</phase>
-                        <goals>
-                            <goal>compile</goal>
-                        </goals>
-                        <configuration>
-                            <release>8</release>
-                            <buildDirectory>${project.build.directory}</buildDirectory>
-                            <compileSourceRoots>${project.compileSourceRoots}</compileSourceRoots>
-                            <outputDirectory>${project.build.outputDirectory}</outputDirectory>
-                            <additionalClasspathElements>
-                                <additionalClasspathElement>${project.build.directory}/jdk-misc.jar</additionalClasspathElement>
-                            </additionalClasspathElements>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>        
+
         
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -160,17 +135,6 @@
                     <reuseForks>false</reuseForks>
                     <reportsDirectory>${project.build.directory}/surefire-reports</reportsDirectory>
                 </configuration>
-                <executions>
-                    <execution>
-                        <id>default-test</id>
-                        <configuration>
-                            <classesDirectory>${project.build.directory}/classes/META-INF/versions/9</classesDirectory>
-                            <additionalClasspathElements>
-                                <additionalClasspathElement>${project.build.directory}/classes</additionalClasspathElement>
-                            </additionalClasspathElements>
-                        </configuration>
-                    </execution>
-                </executions>
             </plugin>
             
             <plugin>
@@ -204,7 +168,7 @@
                         </includes>
                         <childDelegation>true</childDelegation>
                         <reuseForks>false</reuseForks>
-                        <argLine>-javaagent:${settings.localRepository}/org/jmockit/jmockit/${version.jmockit}/jmockit-${version.jmockit}.jar ${modular.jdk.args} ${modular.jdk.props}</argLine>
+                        <argLine>-javaagent:${settings.localRepository}/org/jmockit/jmockit/${version.jmockit}/jmockit-${version.jmockit}.jar</argLine>
                         <!-- See also excludedGroups property in profiles -->
                     </configuration>
                 </plugin>
@@ -340,109 +304,9 @@
     </dependencyManagement>
 
     <profiles>
-        <profile>
-            <id>modularizedJdk</id>
-            <activation>
-                <jdk>[9,)</jdk>
-            </activation>
-            <properties>
-                <!-- [WFCORE-1431] remove SASL workaround -->
-                <modular.jdk.args>--add-modules java.sql --illegal-access=permit</modular.jdk.args>
-                <!-- use version of jboss-logging that works much better with JDK9 -->
-                <modular.jdk.props>-Djdk.attach.allowAttachSelf=true</modular.jdk.props>
-                <!-- 2.20.x doesn't start on JDK10-->
-                <version.surefire.plugin>2.19.1</version.surefire.plugin>
-            </properties>
-        </profile>
 
-        <profile>
-            <id>skip-default-tests</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <artifactId>maven-surefire-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>default-test</id>
-                                <phase>none</phase>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-        <profile>
-            <id>java8-test-profile</id>
-            <activation>
-                <property>
-                    <name>java8.home</name>
-                </property>
-            </activation>
-            <properties>
-                <modular.jdk.args/>
-                <modular.jdk.props/>
-            </properties>
-            <build>
-                <plugins>
-                    <plugin>
-                        <artifactId>maven-surefire-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>java8-test</id>
-                                <phase>test</phase>
-                                <goals>
-                                    <goal>test</goal>
-                                </goals>
-                                <configuration>
-                                    <reportsDirectory>${project.build.directory}/surefire-reports/java8</reportsDirectory>
-                                    <jvm>${java8.home}/bin/java</jvm>
-                                    <additionalClasspathElements>
-                                        <additionalClasspathElement>${java8.home}/lib/tools.jar</additionalClasspathElement>
-                                    </additionalClasspathElements>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-        <profile>
-            <id>java9-test-profile</id>
-            <activation>
-                <property>
-                    <name>java9.home</name>
-                </property>
-            </activation>
-            <properties>
-                <modular.jdk.args/>
-                <modular.jdk.props/>
-            </properties>
-            <build>
-                <plugins>
-                    <plugin>
-                        <artifactId>maven-surefire-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>java9-test</id>
-                                <phase>test</phase>
-                                <goals>
-                                    <goal>test</goal>
-                                </goals>
-                                <configuration>
-                                    <reportsDirectory>${project.build.directory}/surefire-reports/java9</reportsDirectory>
-                                    <jvm>${java9.home}/bin/java</jvm>
-                                    <classesDirectory>${project.build.directory}/classes/META-INF/versions/9</classesDirectory>
-                                    <additionalClasspathElements>
-                                        <additionalClasspathElement>${project.build.outputDirectory}</additionalClasspathElement>
-                                        <additionalClasspathElement>${java9.home}/lib/tools.jar</additionalClasspathElement>
-                                    </additionalClasspathElements>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
+
+
     </profiles>
 
     <repositories>
