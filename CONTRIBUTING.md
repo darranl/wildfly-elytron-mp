@@ -49,7 +49,7 @@ It is recommended that you use a separate branch for every issue you work on. To
 ## Setting up your Developer Environment
 You will need:
 
-* JDK 11
+* JDK 25 (for building; optionally JDK 17, 21 for multi-version testing)
 * Git
 * Maven 3.3.9 or later
 * An [IDE](https://en.wikipedia.org/wiki/Comparison_of_integrated_development_environments#Java)
@@ -67,6 +67,31 @@ To build `wildfly-elytron` run:
 ```bash
 mvn clean install
 ```
+
+The default build expects Java 25 on `PATH` and in `JAVA_HOME`. The project is compiled with Java 25 and targets Java 17 bytecode.
+
+To run tests with specific JDK versions (17, 21, or 25), configure Maven toolchains first:
+
+1. Copy `toolchains.xml.template` from the repository root to `~/.m2/toolchains.xml`
+2. Update the JDK home paths in that file for your local machine
+3. Run Maven with the desired test JDK selection
+
+Examples:
+
+```bash
+mvn test -Djdk.test.version=17
+mvn test -Djdk.test.version=21
+mvn test -Djdk.test.version=25
+mvn test -Djdk.test.version=21 -Djdk.test.vendor=semeru
+mvn install -Ptest-all-versions
+```
+
+The GitHub Actions workflows use the same toolchain-based approach. Contributors should expect:
+- pull requests to run Linux CI for Java 17, 21, and 25 on both Temurin and Semeru
+- nightly CI to run the full Linux, Windows, and macOS matrix for the same JDK combinations
+- a separate non-LTS workflow to exercise the latest non-LTS JDK on all supported platforms
+
+If you do not configure `~/.m2/toolchains.xml`, the default `mvn clean install` workflow still works with Java 25.
 
 To skip the tests, use:
 
