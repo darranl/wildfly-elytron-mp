@@ -187,7 +187,7 @@
                         <notimestamp>true</notimestamp>
                         <doclint>none</doclint>
                         <show>protected</show>
-                        <source>8</source> <!-- See https://bugs.openjdk.java.net/browse/JDK-8212233 -->
+                        <source>17</source>
                         <sourcepath>
                             ${project.basedir}/jwt/src/main/java/;
                         </sourcepath>

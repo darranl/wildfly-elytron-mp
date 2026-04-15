@@ -49,7 +49,7 @@ It is recommended that you use a separate branch for every issue you work on. To
 ## Setting up your Developer Environment
 You will need:
 
-* JDK 11
+* JDK 25 (for building; optionally JDK 17, 21 for multi-version testing)
 * Git
 * Maven 3.3.9 or later
 * An [IDE](https://en.wikipedia.org/wiki/Comparison_of_integrated_development_environments#Java)
