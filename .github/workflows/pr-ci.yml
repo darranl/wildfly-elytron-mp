@@ -1,0 +1,19 @@
+name: CI - Pull Request
+
+on:
+  pull_request:
+    branches:
+      - 2.x
+
+jobs:
+  hello-world:
+    name: Hello World PR CI
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Print hello world
+        shell: bash
+        run: |
+          echo "Hello from wildfly-elytron-mp PR CI"
+          echo "Repository: $GITHUB_REPOSITORY"
+          echo "Ref: $GITHUB_REF"
